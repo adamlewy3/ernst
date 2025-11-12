@@ -4,28 +4,35 @@ class Fraction:
         self.b = b
     
     def __eq__(self, other):
-        if self.a * other.b == self.b * other.a:
-            return True
+        if isinstance(other, Fraction):
+            return self == other
         else:
             return False
         
     def __add__(self, other):
-        return(Fraction(self.a * other.b + self.b * other.a, self.b *other.b))
+        return Fraction(self.a * other.b + self.b * other.a, self.b *other.b) 
     
     def __radd__(self, other):
-        pass
+        assert isinstance(other, int)
+        return Fraction(self.a + self.b*other, self.b)
     
     def __mul__(self, other):
-        pass
+        return Fraction(self.a * other.a, self.b * other.b)  
 
     def __rmul__(self, other):
         pass
 
-    def __inv__(self, other):
-        pass
+    def __inv__(self):
+        return Fraction(self.b, self.a)
 
     def div(self, other):
-        pass
+        return self.inv() * other
+
+    def __str__(self):
+        return '%s/%s' % (self.a, self.b)
+
+    def __repr__(self):
+        return 
 
 if __name__ == '__main__':
     pass
