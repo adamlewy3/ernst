@@ -82,7 +82,7 @@ class Polynomial:
 
 if __name__ == '__main__':
 
-    import fields.ModP as ModP
+    import fields.gp_element as gp_element
 
     test1 = Polynomial(coefficients=(1,2,3))
 
