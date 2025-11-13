@@ -1,4 +1,3 @@
-
 #Finite field of order p class - maybe later can try work with finite fields of order p^n, need to define a 'quotient structure' 
 
 class ModP:

@@ -1,8 +1,16 @@
 class Fraction:
     def __init__(self, a: int, b: int):
-        self.a = a
-        self.b = b
+        d = Fraction.gcd(a,b)
+        self.a = a / d
+        self.b = b / d
     
+    def gcd(a,b):
+        if b == 0:
+            return a
+        while b:
+            Fraction.gcd(b, a%b)
+    
+
     def __eq__(self, other):
         if isinstance(other, Fraction):
             return self == other
@@ -25,14 +33,14 @@ class Fraction:
     def __inv__(self):
         return Fraction(self.b, self.a)
 
-    def div(self, other):
+    def __truediv__(self, other):
         return self.inv() * other
 
     def __str__(self):
         return '%s/%s' % (self.a, self.b)
 
     def __repr__(self):
-        return 
+        pass
 
 if __name__ == '__main__':
-    pass
+   pass

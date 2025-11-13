@@ -54,7 +54,8 @@ class Polynomial:
     def __rmul__(self, other):
         pass
 
-    def eucldiv(self, other):
+    def __divmod__(self, other):
+        #f = qg + r, return q, r (modulo and remainder)
         pass
 
     def __str__(self):
