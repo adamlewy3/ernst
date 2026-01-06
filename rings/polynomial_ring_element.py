@@ -53,8 +53,12 @@ class Polynomial:
         """ 
         Removes the leading zeros of a polynomial. Returns a new polynomial with appropriate number of zeros. 
         """
-        pass
-
+        if self.coefficients[-1] != 0:
+            return self
+        else:
+            self.coefficients.pop(-1)
+            self.degree -= 1
+            return self.remove_zeros()
 
     def __mul__(self, other):
         res = Polynomial.degree((self.degree+other.degree))
@@ -80,6 +84,9 @@ class Polynomial:
         return q: polynomial, r: polynomial such that
         self = q * other + r if deg self >= deg other. and q=0, r = 0 otherwise.
         """ 
+        self = self.remove_zeros()
+        other = other.remove_zeros()
+
         if self.degree <= other.degree:
             return 0, self
         
@@ -94,8 +101,7 @@ class Polynomial:
             print(res1)
 
             res = res - res1*other
-            res.coefficients.pop(-1)
-            res.degree -= 1
+            res = res.remove_zeros()
             q1, r1 = divmod(res, other)
             q1 *= other.coefficients[-1]
             return q1 + res1, r1
@@ -163,9 +169,27 @@ if __name__ == '__main__':
 
     print(f"{test1} = {f} = {q}*{test3} + {r} ")
 
-    poly1 = Polynomial(coefficients=(4,5,3,2))
+    poly1 = Polynomial(coefficients=(4,5,3,1))
     
     q1, r1 = divmod(poly1, test1)
     f1 = q1*test1 + r1
 
     print(f"{poly1} = {f1} = {q1}*{test1} + {r1}")
+
+
+    pol2 = Polynomial(coefficients=(3,4,5,0,3,0,0,0))
+    print(pol2.degree)
+    pol3 = pol2.remove_zeros()
+    print(pol3.degree)
+
+    #pol2 = 3x^4 + 5x^2 + 4x + 3
+    #pol3 = x^3 + 3x^2 + 5x + 4
+    #what is divmod(pol3, pol2)?
+
+    q2, r2 = divmod(pol2, poly1)
+
+    f2 = q2 * poly1 + r2
+
+    print(f"{pol2} = {f2} = {q2}*{poly1} + {r2}")
+
+
