@@ -1,4 +1,5 @@
 #Finite field of order p class - maybe later can try work with finite fields of order p^n, need to define a 'quotient structure' 
+import math
 
 class ModP:
     def __init__(self, a, p)-> None:
@@ -46,7 +47,7 @@ class ModP:
         if isinstance(other, ModP) and other.p == self.p:
             return ModP(self.reduction * other.reduction, self.p)
         else:
-            NotImplemented
+            raise ValueError 
 
     def __rmul__(self,other):
         assert isinstance(other, int)
@@ -92,10 +93,69 @@ class ModP:
     def crt(self, other):
         pass
 
+
+    def totient(n):
+        #There has to be a good way of doing this, don't know it yet. Maybe in terms of trees?
+        #for now, implement only for primes:
+        """ Returns the euler totient of n
+
+        args
+
+        n: int
+
+        returns
+
+        phi(n), where phi is the euler totient function. As this is the gp_element class, this is only defined in the case where n is a prime
+        """
+        if isprime(n) == True:
+            return n-1
+
+    def isprime(n):
+        assert isinstance(n, int)
+        for i in range(2, int(math.sqrt(n))+1):
+            if n % i == 0:
+                return False
+        return True
+
+    def is_generator(self, print_residues = False):
+        """ Checks whether an element generates Z/pZ
+
+            args
+
+            self: ModP
+            print_residues: Bool
+
+            returns
+
+            True if self is a generator, false if otherwise. Prints the list of residues mod p.
+        """
+        residues = [self.reduction]
+        assert isinstance(print_residues, bool)
+        
+        if print_residues == False:
+            for i in range(self.p):
+                self *= self
+                residues.append(self.reduction)
+                if len(residues) != len(set(residues)):
+                    return False
+            return True
+
+        if print_residues == True:
+            for i in range(self.p):
+                self *= self
+                residues.append(self.reduction)
+                if len(residues) != len(set(residues)):
+                    return False
+            print(residues)
+            return True
+
+
+
     #returns a generator mod p
     #Very inefficient: be warned
     def get_generator(p: int) -> ModP:
-        pass
+        pass 
+        
 
 
 if __name__ == '__main__':
@@ -112,4 +172,5 @@ if __name__ == '__main__':
     '''
     print(repr(test1 / test2))
 
-    print(test2.div(test3))
+
+    ModP(2,3).is_generator(print_residues = True)
