@@ -88,6 +88,16 @@ class ModP:
     def __repr__(self):
         return '%s(%s, %s)' % (self.__class__.__name__, self.reduction, self.p)
 
+    # solves a system of congruences 
+    def crt(self, other):
+        pass
+
+    #returns a generator mod p
+    #Very inefficient: be warned
+    def get_generator(p: int) -> ModP:
+        pass
+
+
 if __name__ == '__main__':
     #here is the place to test everything
     print(ModP.extgcd(7,3))

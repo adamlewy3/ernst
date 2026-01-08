@@ -17,6 +17,14 @@ class Polynomial:
         #returns the string representation of a polynomial
 
         return "Polynomial"+str(self.coefficients)
+
+    def __getitem__(self, j):
+        """Return the coefficient of x^j"""
+        return self.coefficients[j]
+
+    def __setitem__(self, j, val):
+        """Set the coefficient of x^j"""
+        self.coefficients[j] = val
     
     def __add__(self, other):
         if self.degree == other.degree:
@@ -74,6 +82,21 @@ class Polynomial:
         res = Polynomial.degree(self.degree)
         res.coefficients = [x * i for i in self.coefficients]
         return res 
+
+    def eval(self, x):
+        """Evaluate at x method"""
+        total = 0
+        for i in range(len(self.coefficients)):
+            total += self.coefficients[i]*x**i
+        return total
+
+    def deriv(self):
+        """ Returns the derivative of the polynomial self"""
+        res = Polynomial.degree(self.degree-1)
+        print(res)
+        for i in range(len(res.coefficients)):
+            res.coefficients[i] = (i+1)*self.coefficients[i+1]
+        return res
 
     def __divmod__(self, other):
         """ Division with remainder method. 
@@ -133,7 +156,7 @@ if __name__ == '__main__':
     test1 = Polynomial(coefficients=(1,2,3))
 
     test2 = Polynomial(coefficients=(1,2))
-
+    """
     a = test1 + test2
     b = test1 * test2
     print(f"{test1} + {test2} = {a}")
@@ -145,14 +168,14 @@ if __name__ == '__main__':
 
     #Now this is completely broken. Awesome.
     #Should return 2x+1 - 3x^2-2x-1 = -3x^2
-    """
+
     print(test1)
     print(test2)
     
     print(-test1)
     print(test2 + -test1)
     print(test2 - test1)        
-    """
+
     c =test2+test1
     print(f"{test2} + {test1} = {c}")
 
@@ -191,5 +214,30 @@ if __name__ == '__main__':
     f2 = q2 * poly1 + r2
 
     print(f"{pol2} = {f2} = {q2}*{poly1} + {r2}")
+    """
 
+    # Testing setitem, getitem, derivative method, evaluate method. 
+    # Should be able to implement a greatest common divisor method now that I have divmod - should essentially be copy paste. 
 
+    
+    test1 = Polynomial(coefficients=(1,2,3))
+
+    test2 = Polynomial(coefficients=(1,2))
+    """
+    print(test1)
+    test1[0] = 3
+    print(test1)
+
+    print(test2[0])
+    print(test1.deriv())
+    print(test2.deriv())
+    """
+
+    print(test1)
+    print(test1.deriv())
+
+    print(test1[0] == test1.eval(0))
+    print(test2[0] == test2.eval(0))
+
+    print(test1)
+    print(test1.eval(1))
