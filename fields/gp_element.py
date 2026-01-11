@@ -103,9 +103,11 @@ class ModP:
         self^n: ModP
 
         """
-        power = n % (self.p-1)
+        power = n % ((self.p)-1)
         if power == 0:
             return ModP(1, self.p)
+        if power == 1:
+            return self 
         else:
             return self * self.pow(power-1)
 
@@ -194,8 +196,49 @@ class ModP:
                     return False 
             self_copy.residue_printer(residues)
             return True
-
     
+    def legendre(self):
+        """
+        Evaluates the legendre symbol (a/p), a is self
+
+        args:
+        a: int
+        p: int
+
+        returns:
+        (a/p) mod p
+        """
+        res = self.pow(int((self.p-1)/2))
+        if res.reduction == 1:
+            return True
+        else: 
+            return False
+
+    @classmethod
+    def quad_residues(cls, p, verbose=False):
+        """
+        Prints x^2 mod p for all x = 0,1,...,p-1
+
+        args
+
+        p: int
+
+        returns
+
+        [0^2, 1^2, 2^2, 3^2, ..., p-1^2]: list of ModP
+        """
+        if verbose == False:
+            quadratic_residues = []
+            for i in range(p):
+                res = cls(i,p)
+                quadratic_residues.append(res.pow(2))
+
+            return quadratic_residues
+        
+        if verbose == True:
+            pass
+    
+
     #returns a generator mod p
     #Very inefficient (the first time round): be warned
     #Thinking of using a dictionary, so that the program only has to run get_generator once. if it is the first time that a generator is found, 
@@ -209,7 +252,7 @@ if __name__ == '__main__':
     ''' 
     print(ModP.extgcd(7,3))
     test1 = ModP(10,17)
-    test2 = ModP(12,17)
+    test2= ModP(12,17)
     t3 = test2.inv()
     test3 = ModP(0,19)
     print(repr(t3))
@@ -227,4 +270,9 @@ if __name__ == '__main__':
     print(test1.is_generator(print_residues = True))
     """
     
-    
+    test1 = ModP(2,5)
+    print(test1.pow(4))
+
+    print(test1.legendre())
+
+    print(ModP.quad_residues(5))
