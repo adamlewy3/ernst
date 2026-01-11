@@ -1,5 +1,6 @@
 #Finite field of order p class - maybe later can try work with finite fields of order p^n, need to define a 'quotient structure' 
 import math
+import copy
 
 class ModP:
     def __init__(self, a, p)-> None:
@@ -131,46 +132,45 @@ class ModP:
         """
         residues = [self.reduction]
         assert isinstance(print_residues, bool)
+        self_copy = copy.deepcopy(self)
         
         if print_residues == False:
-            for i in range(self.p):
-                self *= self
+            for i in range(2,self.p):
+                self *= self_copy
                 residues.append(self.reduction)
                 if len(residues) != len(set(residues)):
                     return False
             return True
 
         if print_residues == True:
-            for i in range(self.p):
-                self *= self
+            for i in range(2,self.p):
+                self *= self_copy 
                 residues.append(self.reduction)
-                if len(residues) != len(set(residues)):
-                    return False
-            print(residues)
+                if len(set(residues)) != len(set(residues)):
+                    return False 
             return True
 
 
-
     #returns a generator mod p
-    #Very inefficient: be warned
+    #Very inefficient (the first time round): be warned
     def get_generator(p: int) -> ModP:
         pass 
         
 
 
 if __name__ == '__main__':
-    #here is the place to test everything
+    ''' 
     print(ModP.extgcd(7,3))
     test1 = ModP(10,17)
     test2 = ModP(12,17)
     t3 = test2.inv()
     test3 = ModP(0,19)
-    '''
     print(repr(t3))
     print(repr(test2.inv() * test2))
     print(repr(test1.div(test2)))
     '''
-    print(repr(test1 / test2))
 
 
-    ModP(2,3).is_generator(print_residues = True)
+    print(ModP(2,3).is_generator(print_residues = False))
+    # expected to return true
+    #[2, 1]
