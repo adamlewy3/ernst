@@ -53,7 +53,27 @@ class Fraction:
         if i > 1:
             return cls(1,i) + Fraction.harmonic(i-1)  
 
+    @classmethod
+    def zeta(cls, i :int, s: int):
+        """Returns 
+            
+            \sum_{n=1}^i 1/n^s
 
+            args:
+            
+            int: i 
+            int: s
+
+            returns
+            
+            Frac
+        """
+        if i <= 0:
+            raise ValueError("Input must be positive!")
+        if i == 1:
+            return cls(1,1)
+        if i > 1:
+            return cls(1, int(math.pow(i,s))) + Fraction.zeta(i-1,s)
 
 if __name__ == '__main__':
     print("Hello, World!")
@@ -65,3 +85,4 @@ if __name__ == '__main__':
     print(test1 +test2 + Fraction(1,1))
 
     print(Fraction.harmonic(3))
+    print(Fraction.zeta(4,2))
