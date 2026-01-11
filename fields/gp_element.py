@@ -90,8 +90,48 @@ class ModP:
     def __repr__(self):
         return '%s(%s, %s)' % (self.__class__.__name__, self.reduction, self.p)
 
+    def pow(self, n):
+        """ Exponentiation method. Can make this faster by reducing the power mod p-1 first. 
+
+        args
+
+        self: ModP
+        n: int
+
+        returns
+
+        self^n: ModP
+
+        """
+        power = n % (self.p-1)
+        if power == 0:
+            return ModP(1, self.p)
+        else:
+            return self * self.pow(power-1)
+
     # solves a system of congruences 
-    def crt(self, other):
+    def crt(data):
+        """ Returns the solution to the system
+
+        x = self.reduction (self.p)
+        x = other1.reduction (other1.p)
+        x = other2.reduction (other2.p)
+
+        args 
+
+        data: list of ModP such that all are coprime.
+        returns
+
+        x: ModP
+        """
+        for i in range(len(data)):
+            assert isinstance(data[i], ModP)
+
+        for i in range(len(data)):
+            for j in range(len(data)):
+                if i != j and data[i].p == data[j].p:
+                    raise ValueError("Must be pairwise coprime!")
+        #Maybe better to do this with multiple i/o
         pass
 
 
@@ -178,4 +218,13 @@ if __name__ == '__main__':
     '''
 
 
-    print(ModP(2,5).is_generator())
+    #print(ModP(2,5).is_generator())
+    """
+    test1 = ModP(2,5)
+    for i in range(5):
+        print(test1.pow(i))
+
+    print(test1.is_generator(print_residues = True))
+    """
+    
+    
