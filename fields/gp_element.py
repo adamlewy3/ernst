@@ -118,6 +118,10 @@ class ModP:
                 return False
         return True
 
+    def residue_printer(self, data):
+        for i in range(1,self.p):
+            print(f"{self.reduction}^{i} = {data[i-1]}")
+
     def is_generator(self, print_residues = False):
         """ Checks whether an element generates Z/pZ
 
@@ -146,13 +150,16 @@ class ModP:
             for i in range(2,self.p):
                 self *= self_copy 
                 residues.append(self.reduction)
-                if len(set(residues)) != len(set(residues)):
+                if len(residues) != len(set(residues)):
                     return False 
+            self_copy.residue_printer(residues)
             return True
 
-
+    
     #returns a generator mod p
     #Very inefficient (the first time round): be warned
+    #Thinking of using a dictionary, so that the program only has to run get_generator once. if it is the first time that a generator is found, 
+    #then it will add it to the dictionary.
     def get_generator(p: int) -> ModP:
         pass 
         
@@ -171,6 +178,4 @@ if __name__ == '__main__':
     '''
 
 
-    print(ModP(2,3).is_generator(print_residues = False))
-    # expected to return true
-    #[2, 1]
+    print(ModP(2,5).is_generator())
