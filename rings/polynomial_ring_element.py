@@ -84,10 +84,11 @@ class Polynomial:
         return res 
 
     def eval(self, x):
-        """Evaluate at x method"""
+        """Evaluate at x method, using Horner's method"""
         total = 0
-        for i in range(len(self.coefficients)):
-            total += self.coefficients[i]*x**i
+        for i in reversed(self.coefficients): 
+            total = x*total + i 
+
         return total
 
     def deriv(self):
@@ -149,7 +150,6 @@ class Polynomial:
                 res =  res + str(self.coefficients[i])+x_expression(i) 
         return res.lstrip("+")
     
-
 
 if __name__ == '__main__':
 
@@ -219,10 +219,6 @@ if __name__ == '__main__':
     # Testing setitem, getitem, derivative method, evaluate method. 
     # Should be able to implement a greatest common divisor method now that I have divmod - should essentially be copy paste. 
 
-    
-    test1 = Polynomial(coefficients=(1,2,3))
-
-    test2 = Polynomial(coefficients=(1,2))
     """
     print(test1)
     test1[0] = 3
@@ -232,7 +228,7 @@ if __name__ == '__main__':
     print(test1.deriv())
     print(test2.deriv())
     """
-
+    """ 
     print(test1)
     print(test1.deriv())
 
@@ -241,3 +237,16 @@ if __name__ == '__main__':
 
     print(test1)
     print(test1.eval(1))
+    """
+
+    test1 = Polynomial(coefficients=(1,7,3,2,1))
+    test2 = Polynomial(coefficients=(1,2,1))
+
+    q3, r3 = divmod(test1, test2)
+
+    print(f"{test1} = {q3}*{test2} + {r3}")
+
+
+    print(test2.eval1(2)) 
+    print(test2.eval(2))
+
