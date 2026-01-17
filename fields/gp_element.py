@@ -91,7 +91,7 @@ class ModP:
         return '%s(%s, %s)' % (self.__class__.__name__, self.reduction, self.p)
 
     def pow(self, n):
-        """ Exponentiation method. Can make this faster by reducing the power mod p-1 first. 
+        """ Fast Exponentiation method. 
 
         args
 
@@ -106,10 +106,12 @@ class ModP:
         power = n % ((self.p)-1)
         if power == 0:
             return ModP(1, self.p)
-        if power == 1:
-            return self 
         else:
-            return self * self.pow(power-1)
+            partial = ModP.pow(self, power //2)
+            result = partial*partial
+            if power % 2 == 1:
+                result *= self
+            return result
 
     # solves a system of congruences 
     def crt(data):
@@ -273,6 +275,4 @@ if __name__ == '__main__':
     test1 = ModP(2,5)
     print(test1.pow(4))
 
-    print(test1.legendre())
 
-    print(ModP.quad_residues(5))
